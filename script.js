@@ -14,12 +14,6 @@ function createProduct() {
     const priceValidation = /^[0-9]+(\.[0-9]{1,2})?$/;
     const imageValidation = /\.(jpg|png|gif)$/i;
 
-    //Code P Mean
-    // function isImgUrl(imageURL) {
-    //     const input = new URL(imageURL);
-    //     return /\.(jpg|jpeg)$/.test(input.pathname);
-    // }
-
     if (!priceValidation.test(price)) {
         alert('Price must be a valid number');
         return;
