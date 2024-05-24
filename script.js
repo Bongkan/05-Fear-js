@@ -1,5 +1,4 @@
 const products = [];
-const cart = [];
 let idCounter = 0;
 const defaultImageUrl = "https://thumbs.dreamstime.com/b/flat-isolated-vector-eps-illustration-icon-minimal-design-long-shadow-product-not-available-icon-117825738.jpg";
 
@@ -7,19 +6,19 @@ document.getElementById('productForm').addEventListener('submit', function (even
     event.preventDefault();
     createProduct();
 });
+
 function createProduct() {
-    const name = document.getElementById('productName').value;
-    const price = document.getElementById('productPrice').value;
-    let image = document.getElementById('productImage').value;
+    const name = document.getElementById('productName').value.trim();
+    const price = document.getElementById('productPrice').value.trim();
+    let image = document.getElementById('productImage').value.trim();
     const priceValidation = /^[0-9]+(\.[0-9]{1,2})?$/;
+    const imageValidation = /\.(jpg|png|gif)$/i;
 
     //Code P Mean
     // function isImgUrl(imageURL) {
     //     const input = new URL(imageURL);
     //     return /\.(jpg|jpeg)$/.test(input.pathname);
     // }
-
-    const imageValidation = /\.(jpg|png|gif)$/i;
 
     if (!priceValidation.test(price)) {
         alert('Price must be a valid number');
@@ -49,7 +48,7 @@ function clearForm() {
 }
 
 function displayProducts(newProduct) {
-    const displaySection = document.getElementById("products");
+    const displaySection = document.getElementById("productsDashBoard");
 
     const card = document.createElement("div");
     card.className = "flex p-4 rounded-lg shadow-lg items-center w-fit";
@@ -75,7 +74,7 @@ function displayProducts(newProduct) {
 }
 
 function addToCart() {
-    const productDashboard = document.getElementById("products");
+    const productDashboard = document.getElementById("productsDashBoard");
     const selectedProducts = productDashboard.querySelectorAll('input[type="checkbox"]:checked');
     const cartItems = document.querySelector(".cart-item");
 
@@ -84,47 +83,44 @@ function addToCart() {
     selectedProducts.forEach((product) => {
         const productId = product.getAttribute('product-id');
         const selectedProduct = products.find((item) => item.id == productId);
-
-        if (selectedProduct) {
-            document.getElementById('cart').className = "block"
-            const cartItem = createCartItem(selectedProduct);
-            cartItems.appendChild(cartItem);
-        }
+        document.getElementById('cart').className = "block"
+        const cartCard = createCartCard(selectedProduct);
+        cartItems.appendChild(cartCard);
     });
 }
 
-function createCartItem(product) {
-    const cartItem = document.createElement("div");
-    cartItem.className = "flex p-4 rounded-lg shadow-lg items-center w-fit cart-item";
-    cartItem.setAttribute('data-product-id', product.id);
+function createCartCard(product) {
+    const cartCard = document.createElement("div");
+    cartCard.className = "flex p-4 rounded-lg shadow-lg items-center w-fit cart-item";
+    cartCard.setAttribute('data-product-id', product.id);
 
     const removeButton = document.createElement("button");
     removeButton.textContent = "Remove";
     removeButton.className = "remove-button ml-4 bg-red-600 text-white rounded-md p-1";
     removeButton.addEventListener("click", function () {
-        cartItem.remove();
+        cartCard.remove();
     });
 
-    const cartItemImage = document.createElement("img");
-    cartItemImage.src = product.image;
-    cartItemImage.className = "w-20 h-20 object-contain rounded mx-4";
+    const cartCardImage = document.createElement("img");
+    cartCardImage.src = product.image;
+    cartCardImage.className = "w-20 h-20 object-contain rounded mx-4";
 
-    const cartItemInfo = document.createElement("div");
-    cartItemInfo.innerHTML = `<strong>${product.name}</strong><p class="cart-price">$${product.price.toFixed(2)}<p>`;
+    const cartCardInfo = document.createElement("div");
+    cartCardInfo.innerHTML = `<strong>${product.name}</strong><p class="cart-price">$${product.price.toFixed(2)}<p>`;
 
-    cartItem.appendChild(cartItemImage);
-    cartItem.appendChild(cartItemInfo);
-    cartItem.appendChild(removeButton);
+    cartCard.appendChild(cartCardImage);
+    cartCard.appendChild(cartCardInfo);
+    cartCard.appendChild(removeButton);
 
-    return cartItem;
+    return cartCard;
 }
 
 function totalPrice() {
     const cartItems = document.querySelectorAll('.cart-item');
     let totalPrice = 0;
 
-    cartItems.forEach((cartItem) => {
-        const productId = cartItem.getAttribute('data-product-id');
+    cartItems.forEach((cartCard) => {
+        const productId = cartCard.getAttribute('data-product-id');
         const selectedProduct = products.find((item) => item.id == productId);
         if (selectedProduct) {
             totalPrice += selectedProduct.price;
