@@ -9,9 +9,9 @@
 </head>
 
 <body class="bg-gray-100">
-    <div class="Form flex flex-col items-center bg-gray-100">
+    <div class="dashboard flex flex-col items-center bg-gray-100">
         <H1 class="text-4xl font-bold py-4">Shopping Cart</H1>
-        <div class="product-form w-full">
+        <div class="product-form w-full px-2">
             <h2 class="text-2xl font-bold p-4">Add Item for Selection</h3>
                 <form id="productForm" class="flex justify-between">
                     <label for="productName" class="px-2 min-w-fit">Product Name:</label>
@@ -28,27 +28,33 @@
                     <input type="text" id="productImage" placeholder="Image URL"
                         class="block px-3 border w-full border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
-                    <button type="submit" class="min-w-fit ml-4 w-full bg-indigo-600 text-white rounded-md">Create
+                    <button type="submit" class="min-w-fit ml-4 w-full bg-indigo-600 text-white rounded-md px-2">Create
                         Product</button>
                 </form>
         </div>
-        <div class="product-dashboard m-4 p-4 w-[95%] bg-white max-h-3/5 overflow-y-scroll rounded flex flex-col"
+        <div class="product-dashboard m-4 p-4 w-[95%] bg-white min-h-40 max-h-3/5 overflow-y-scroll rounded flex flex-col"
             id="products">
         </div>
-        <!-- <div class="w-full">
-            <button type="submit" class="ml-4 bg-indigo-600 text-white rounded-md p-1">Add to Cart</button>
-        </div> -->
+        <div class="w-full">
+            <button type="submit" onclick="addToCart()" class="ml-4 bg-indigo-600 text-white rounded-md p-1">Add to
+                Cart</button>
+        </div>
+    </div>
+
+    <div id="cart" class="hidden">
+        <div class="flex flex-col items-center">
+            <div class="cart-item m-4 p-4 w-[95%] bg-white min-h-40 max-h-3/5 overflow-y-scroll rounded flex flex-col"
+                id="cartItem">
+            </div>
+        </div>
+        <div class="cart-actions">
+            <button onclick="totalPrice()" class="ml-4 bg-yellow-300 text-black rounded-md p-1">Calculate Final
+                Price</button>
+            <p class="p-4 text-xl font-bold">You have to pay: <span id="totalPrice">0</span></p>
+        </div>
     </div>
 
 
-    <!-- <div class="cart">
-            <h3>Cart</h3>
-            <div id="cartItems"></div>
-            <div class="cart-actions">
-                <button onclick="calculateTotalPrice()">Calculate Final Price</button>
-                <p>You have to pay: <span id="totalPrice">0</span></p>
-            </div>
-        </div> -->
     <script src="script.js"></script>
     </div>
 </body>
